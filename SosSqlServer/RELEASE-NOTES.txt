@@ -6,7 +6,7 @@ RELEASE NOTES
  
  For detailed information concerning the installation procedure the reader is referred to the installation guide (how2install) 
  in the doc directory.
-
+ 
 Release 52N-SOS-3.1.1
 =========================
 
