@@ -6,11 +6,14 @@
  */
 #include "body.h"
 
-#define DEF_O2
+//#define DEF_O2
 #define DEF_O3
 #define DEF_CO
 
-#define MAC_ADDRESS "0123456789AB"
+//#define MAC_ADDRESS "111171" //Peter
+#define MAC_ADDRESS "9999" //Jan
+//#define MAC_ADDRESS "0123456789AB" //Steen
+
 
 void setup()
 {
@@ -81,6 +84,6 @@ void loop(){
   value = SensorGas.readValue(SENS_SOCKET3B);
   USB.println(value);
 #endif
-  delay(1000);
+  delay(60000);
 }
 
