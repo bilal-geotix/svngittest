@@ -6,13 +6,16 @@
  */
 #include "body.h"
 
-//#define DEF_O2
+#include <stdio.h>
+#define DEF_O2
 #define DEF_O3
 #define DEF_CO
 
+#define FSTRING "MAC: %s; TYP: %s; VAL: %f"
+
 //#define MAC_ADDRESS "111171" //Peter
-#define MAC_ADDRESS "9999" //Jan
-//#define MAC_ADDRESS "0123456789AB" //Steen
+//#define MAC_ADDRESS "9999" //Jan
+#define MAC_ADDRESS "0123456789AB" //Steen
 
 
 void setup()
@@ -59,31 +62,27 @@ void loop(){
   Utils.blinkLEDs(200);
   Utils.blinkLEDs(200);
 
-  float value = 0;
+  double value = 0;
+  char cbuffer[50];
 
 #ifdef DEF_O2
-  USB.print("MAC: ");
-  USB.print(MAC_ADDRESS);
-  USB.print("; TYP: O2; VAL: ");
   value = SensorGas.readValue(SENS_O2);
-  USB.println(value);
+  sprintf(cbuffer, FSTRING, MAC_ADDRESS, "O2", value);
+  USB.println(cbuffer);
 #endif
 
 #ifdef DEF_O3
-  USB.print("MAC: ");
-  USB.print(MAC_ADDRESS);
-  USB.print("; TYP: O3; VAL: ");
-  value = SensorGas.readValue(SENS_SOCKET2B);
-  USB.println(value);
+  value = SensorGas.readValue(SENS_O2);
+  sprintf(cbuffer, FSTRING, MAC_ADDRESS, "O3", value);
+  USB.println(cbuffer);
 #endif
 
 #ifdef DEF_CO
-  USB.print("MAC: ");
-  USB.print(MAC_ADDRESS);
-  USB.print("; TYP: CO; VAL: ");
-  value = SensorGas.readValue(SENS_SOCKET3B);
-  USB.println(value);
+  value = SensorGas.readValue(SENS_O2);
+  sprintf(cbuffer, FSTRING, MAC_ADDRESS, "CO", value);
+  USB.println(cbuffer);
 #endif
+
   delay(60000);
 }
 
