@@ -6,10 +6,10 @@ import urllib2
 import time
 import datetime
 
-debug = 0
+debug = 1
 debug_print = 0
 
-comport = "\\\\.\\COM12"
+comport = "\\\\.\\COM11"
 
 # Debug print
 def dprint(obj):
@@ -98,7 +98,15 @@ while 1:
     if debug==0:
             sd = ser.readline()   # Read line from serial port - hanging wait
     else: # use dummy data
-        sd = "#MAC: 0123456789AB; TYP: O2; VAL: 1.2345"
+#        sd = "#MAC: 0123456789AB; TYP: O2; VAL: 1.2345"
+#        sd = "\x1b~\x00T\x80\x00}3\xa2\x00@o\xb4\x17K\x02R\x01#\x01\x00}3\xa2\x00@o\xb4\x17--hello,thisisWaspmote.MAC': '0013A200406FB417--\r\n"
+        sd = "garbage--MAC: 0013A200406FB417; TYP: O2; VAL: 1.2345--garbage\r\n"
+    
+    # Retrieve data block
+    _, _, sd = sd.partition("--")    
+    sd, _, _ = sd.partition("--")
+    
+    print sd
     
     # Add timestamp to sensordata string
     timestamp = long(time.mktime(time.gmtime()))*1000
