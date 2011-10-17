@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope
+	xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" 
+	xsi:schemaLocation="http://www.w3.org/2003/05/soap-envelope http://www.w3.org/2003/05/soap-envelope/soap-envelope.xsd http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd http://www.opengis.net/samplingSpatial/2.0 http://schemas.opengis.net/samplingSpatial/2.0/spatialSamplingFeature.xsd" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+	xmlns:swe="http://www.opengis.net/swe/2.0" 
+	xmlns:swes="http://www.opengis.net/swes/2.0" 
+	xmlns:ows="http://www.opengis.net/ows/1.1" 
+	xmlns:sams="http://www.opengis.net/samplingSpatial/2.0"
+	xmlns:sf="http://www.opengis.net/sampling/2.0"
+	xmlns:sos="http://www.opengis.net/sos/2.0" 
+	xmlns:fes="http://www.opengis.net/fes/2.0" 
+	xmlns:gml="http://www.opengis.net/gml/3.2" 
+	xmlns:ogc="http://www.opengis.net/ogc" 
+	xmlns:om="http://www.opengis.net/om/2.0" 
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<soap12:Header>
+		<wsa:To>http://my.client.com/client/myReceiver</wsa:To>
+		<wsa:Action>http://www.opengis.net/sos/2.0/GetObservationResponse</wsa:Action>
+		<wsa:RelatesTo>http://my.client.com/uid/msg-0010</wsa:RelatesTo>
+	</soap12:Header>
+	<soap12:Body>
+		<sos:GetObservationResponse>
+		
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o1">
+				
+				<!-- time period for which this O&M document contains observations - temporal extent -->				
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime1">
+						<gml:beginPosition>2010-06-02T00:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T01:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				
+				<om:resultTime xlink:href="#phenomenonTime1"/>
+			
+				  <!-- identifiers of the sensors that have created the observations contained in this document -->
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/> <!-- a URL would be better -->
+				  
+				  <!-- description of the observed phenomenon -->
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+			
+				  <!-- description of the station feature where the observations were measured -->
+				  <om:featureOfInterest>
+					  <sams:SF_SpatialSamplingFeature gml:id="smithfield_gmlid">
+					  <!-- are both, identifier and name, desired? -->
+					  <gml:identifier codeSpace="http://www.eea.europa.eu">Smithfield</gml:identifier><!-- or can we put a more concrete codespace? -->
+					  <gml:name>Smithfield</gml:name>
+					  <sf:type xlink:href="http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint"/>
+					  <!-- here we could point to a 'bigger' feature -->
+					  <sf:sampledFeature xsi:nil="true" />
+					  <sams:shape>
+						<gml:Point gml:id="p1">
+						  <gml:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4326">53.348809 -6.270446</gml:pos>
+						</gml:Point>
+					  </sams:shape>
+					</sams:SF_SpatialSamplingFeature>
+				  </om:featureOfInterest>
+			   
+				  <!-- the observation data are encoding into a compact form -->
+				  <om:result uom="dB">43.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o2">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime2">
+						<gml:beginPosition>2010-06-02T01:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T02:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime2"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">40.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o3">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime3">
+						<gml:beginPosition>2010-06-02T02:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T03:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime3"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">38.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o4">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime4">
+						<gml:beginPosition>2010-06-02T03:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T04:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime4"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">41.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o5">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime5">
+						<gml:beginPosition>2010-06-02T04:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T05:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime5"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">44.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o6">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime6">
+						<gml:beginPosition>2010-06-02T05:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T06:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime6"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">48.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o7">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime7">
+						<gml:beginPosition>2010-06-02T06:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T07:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime7"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">50.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o8">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime8">
+						<gml:beginPosition>2010-06-02T07:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T08:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime8"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">52.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o9">			
+				<om:phenomenonTime >
+					<gml:TimePeriod gml:id="phenomenonTime9">
+						<gml:beginPosition>2010-06-02T08:00:00.000+2:00</gml:beginPosition>
+						<gml:endPosition>2010-06-02T09:00:00.000+2:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:phenomenonTime>
+				<om:resultTime xlink:href="#phenomenonTime9"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10001"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#smithfield_gmlid" />
+				  <om:result uom="dB">55.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			
+			
+			<!-- Next feature of interest: -->
+			
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o10">
+				  
+					<!-- time period for which this O&M document contains observations - temporal extent -->
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime10">
+							<gml:beginPosition>2010-06-02T00:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T01:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+			
+				  <om:resultTime xlink:href="#phenomenonTime10"/>
+			
+				  <!-- identifiers of the sensors that have created the observations contained in this document -->
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/> <!-- a URL would be better -->
+				  
+				  <!-- description of the observed phenomenon -->
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+					  
+					  <!-- description of the station feature where the observations were measured -->
+				  <om:featureOfInterest>
+					  
+					  <sams:SF_SpatialSamplingFeature gml:id="bridgeStreet_gmlid">
+					  <!-- are both, identifier and name, desired? -->
+					  <gml:identifier codeSpace="http://www.eea.europa.eu">BridgeStreet</gml:identifier><!-- or can we put a more concrete codespace? -->
+					  <gml:name>Bridge Street</gml:name>
+					  
+					  <sf:type xlink:href="http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint"/>
+
+					  <!-- here we could point to a 'bigger' feature -->
+					  <sf:sampledFeature xsi:nil="true" />
+					  
+					  <sams:shape>
+						<gml:Point gml:id="p2">
+						  <gml:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4326">53.341494 -6.228990</gml:pos>
+						</gml:Point>
+					  </sams:shape>
+					</sams:SF_SpatialSamplingFeature>
+				  </om:featureOfInterest>
+			
+				  <!-- the observation data are encoding into a compact form -->
+				  <om:result uom="dB">53.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+				
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o11">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime11">
+							<gml:beginPosition>2010-06-02T01:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T02:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime11"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">50.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o12">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime12">
+							<gml:beginPosition>2010-06-02T02:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T03:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime12"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">58.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o13">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime13">
+							<gml:beginPosition>2010-06-02T03:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T04:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime13"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">51.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o14">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime14">
+							<gml:beginPosition>2010-06-02T04:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T05:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime14"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">54.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o15">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime15">
+							<gml:beginPosition>2010-06-02T05:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T06:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime15"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">58.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o16">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime16">
+							<gml:beginPosition>2010-06-02T06:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T07:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime16"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">60.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o17">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime17">
+							<gml:beginPosition>2010-06-02T07:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T08:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime17"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">62.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+			<sos:observationData>
+				<om:OM_Measurement gml:id="o18">
+					<om:phenomenonTime >
+						<gml:TimePeriod gml:id="phenomenonTime18">
+							<gml:beginPosition>2010-06-02T08:00:00.000+2:00</gml:beginPosition>
+							<gml:endPosition>2010-06-02T09:00:00.000+2:00</gml:endPosition>
+						</gml:TimePeriod>
+					</om:phenomenonTime>
+				  <om:resultTime xlink:href="#phenomenonTime18"/>
+				  <om:procedure xlink:href="urn:x-eea:object:sensor:noise:IE10002"/>
+				  <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/physSound.owl#Noise"/>
+				  <om:featureOfInterest xlink:href="#bridgeStreet_gmlid"/>
+				  <om:result uom="dB">65.0</om:result>
+				</om:OM_Measurement>
+			</sos:observationData>
+			
+		</sos:GetObservationResponse>
+	</soap12:Body>
+</soap12:Envelope>
+
+
