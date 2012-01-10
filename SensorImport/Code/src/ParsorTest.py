@@ -2,24 +2,50 @@ import urllib
 import urllib2
 import json
 #import time
-import TimeHandler
+#import TimeHandler
+
+#import shutil
+import os
+import datetime
 #import datetime
 
+
 #import pytz
+pathLog = "data/Log/log22.txt"
+now = datetime.datetime.now()
+logTime = now.strftime("%Y-%m-%d %H:%M")
+try:
+    statinfo = os.stat(pathLog)
+        
+    print statinfo.st_size 
+    fn = None
+    if not os.path.exists(pathLog):  
+        print "Not"
+        #fn = open(pathLog, "w")
+    else:
+        #fn = open(pathLog, "a")
+        statinfo = os.stat(pathLog)
+        
+        print statinfo.st_size 
+    #fn.write(logTime +"ddd \n")
+    #fn.close()
+    print "OK"
+except:
+    print "Error"
 
 #from datetime import datetime
-s = '2010-06-02T01:13:01.001'
-s1 = '2010-06-02T01:00:00.000+2:00'
-ss = '1970-01-01T02:10:00+0:00'
-print s
-print s1 
-print ss 
-print TimeHandler.TimeHandler().getEpochTime(s)
-print TimeHandler.TimeHandler().getEpochTime(s1)
-print TimeHandler.TimeHandler().getEpochTime(ss)
-print TimeHandler.TimeHandler().getTimeFromEpoch(TimeHandler.TimeHandler().getEpochTime(s))
-print TimeHandler.TimeHandler().getTimeFromEpoch(TimeHandler.TimeHandler().getEpochTime(s1))
-print TimeHandler.TimeHandler().getTimeFromEpoch(TimeHandler.TimeHandler().getEpochTime(ss))
+#s = '2010-06-02T01:13:01.001'
+#s1 = '2010-06-02T01:00:00.000+2:00'
+#ss = '1970-01-01T02:10:00+0:00'
+#print s
+#print s1 
+#print ss 
+#print TimeHandler.TimeHandler().getEpochTime(s)
+#print TimeHandler.TimeHandler().getEpochTime(s1)
+#print TimeHandler.TimeHandler().getEpochTime(ss)
+#print TimeHandler.TimeHandler().getTimeFromEpoch(TimeHandler.TimeHandler().getEpochTime(s))
+#print TimeHandler.TimeHandler().getTimeFromEpoch(TimeHandler.TimeHandler().getEpochTime(s1))
+#print TimeHandler.TimeHandler().getTimeFromEpoch(TimeHandler.TimeHandler().getEpochTime(ss))
 #s3 =ss.split('+',1)[0]
 #print s3
 

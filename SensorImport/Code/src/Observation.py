@@ -8,6 +8,7 @@ import RestService
 
 class Observation():
     
+    objectID = -1
     offering_id = None
     feature_ref = None
     procedure_ref = None
@@ -31,13 +32,16 @@ class Observation():
             if RestService.RestService().createNewProp_OFF(self) == None:
                 return -1   
         
-        result = RestService.RestService().checkObservation(self)
-        if result == 0:
-            result = RestService.RestService().createNewObservation(self)
-            if result == None:
-                return -1
-            # Inserted
-            return 1
-        elif result > 0:
+        obj = RestService.RestService().checkObservation(self)
+        if obj == None:
+            # Error
+            return -1
+        if obj.objectID == 0:
+            print "DO update"
             return 0
-        return result
+        result = RestService.RestService().createNewObservation(self)
+        if result == None:
+            return -1
+        # Inserted
+        return 1
+        

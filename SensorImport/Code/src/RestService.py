@@ -10,6 +10,7 @@ import json
 import BuildResturl
 import Procedure
 import FeatureOfInterest
+import Observation
 
 
 class RestService:
@@ -80,7 +81,7 @@ class RestService:
         except:
             # TODO handling server down
             return None
-    
+        
     def getFeature(self,featureObj):
         resturl = self.buildInstance.buildUrl(5)
         resturl += "where=NAME='"+self.encodeStr(featureObj.name)+"'&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=*&f=pjson"
@@ -253,12 +254,21 @@ class RestService:
         
     def checkObservation(self,observationObj):
         resturl = self.buildInstance.buildUrl(10)
-        resturl += "where=TIME_STAMP='"+observationObj.time_stamp+"'%20and%20PROPERTY="+str(observationObj.property_ref.property_id)+"%20and%20OFFERING="+str(observationObj.offering_id)+"%20and%20TIME_STAMP_BEGIN='"+observationObj.time_stamp_begin+"'%20and%20PROCEDURE_="+str(observationObj.procedure_ref.procedure_id)+"&returnCountOnly=false&returnIdsOnly=true&returnGeometry=false&outFields=*&f=pjson"
+        resturl += "where=TIME_STAMP='"+observationObj.time_stamp+"'%20and%20PROPERTY="+str(observationObj.property_ref.property_id)+"%20and%20OFFERING="+str(observationObj.offering_id)+"%20and%20TIME_STAMP_BEGIN='"+observationObj.time_stamp_begin+"'%20and%20PROCEDURE_="+str(observationObj.procedure_ref.procedure_id)+"%20and%20FEATURE="+str(observationObj.feature_ref.featureID)+"&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=*&f=pjson"
         jsonResponse = self.callRest(resturl,"")
         if self.checkResponse(jsonResponse) == 0:
-            return -1
+            return None
+        tempObj = Observation.Observation()
         try:
-            return jsonResponse['objectIds'][0]
+            if len(jsonResponse['features']) == 1:
+                tempObj.objectID = jsonResponse['features'][0]['attributes']['OBJECTID']
+                tempObj.numeric_value = jsonResponse['features'][0]['attributes']['NUMERIC_VALUE']
+                return tempObj
+            tempObj.objectID = 0
+            return tempObj
         except:
-            return 0
+            tempObj.objectID = -1
+            return tempObj
         
+    def updateObservation(self,observationObj):
+        return "todo"

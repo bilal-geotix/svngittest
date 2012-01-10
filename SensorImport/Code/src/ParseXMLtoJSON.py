@@ -20,7 +20,7 @@ pathInserted = "data/Inserted"
 pathError = "data/Failed"
 pathErrorLog = "data/Log/logError.txt"
 pathLog = "data/Log/log.txt"
-
+maxSize = 1024 * 1024 * 20 # 20 MB
 
 # Getobservation files from xml folder
 def getXML(path):
@@ -34,6 +34,13 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
     observationList = []
     filename = os.path.basename(xmlfilepath)
     try:
+        
+        if Log.Log().getFileSize(xmlfilepath) > maxSize:
+            Log.Log().writeLog(pathErrorLog, "File to big to be processed: "+filename)
+            errorFilePath = os.path.join(pathError, filename)
+            Log.Log().copyFile(xmlfilepath, errorFilePath)
+            Log.Log().deleteFile(xmlfilepath)
+            continue
         
         xmlParsed = getXML(xmlfilepath)
         for node in xmlParsed.getElementsByTagName("sos:GetObservationResponse"):# ("sos:InsertObservation"):
@@ -164,20 +171,17 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                    
     except StopIteration:
         errorFilePath = os.path.join(pathError, filename)
-        Log.Log().copyFile(xmlfilepath, errorFilePath)
-        Log.Log().writeLog(pathErrorLog, message)
-        print "Stopped" 
+        Log.Log().copyFile(xmlfilepath, errorFilePath)  
+        #Log.Log().writeLog(pathErrorLog, message)
     except AttributeError:
         errorFilePath = os.path.join(pathError, filename)
         Log.Log().copyFile(xmlfilepath, errorFilePath)
-        message = "XML parse error"
+        message = "XML parse error: "+filename
         Log.Log().writeLog(pathErrorLog, message)
-        print "Attribute error"
     except:
         errorFilePath = os.path.join(pathError, filename)
         Log.Log().copyFile(xmlfilepath, errorFilePath)
-        message = "Uncaught error"
+        message = "Uncaught error: "+filename
         Log.Log().writeLog(pathErrorLog, message)
-        print "Uncaught error"
     ##continue with loop for next xml file
         
