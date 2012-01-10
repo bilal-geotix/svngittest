@@ -24,15 +24,20 @@ class Observation():
         return
     
     def __str__(self):
-        "test"#return "feaID: " + str(self.feature_of_interest_id) + " Time: " + str(self.time_stamp) +" value: "+self.numeric_value +" OffID; "+str(self.offering_id)+" PropID: "+str(self.property_id)+" ProcedureID: "+str(self.procedure_id)+" Point: "+self.featureObj.shape
+        return "test"#return "feaID: " + str(self.feature_of_interest_id) + " Time: " + str(self.time_stamp) +" value: "+self.numeric_value +" OffID; "+str(self.offering_id)+" PropID: "+str(self.property_id)+" ProcedureID: "+str(self.procedure_id)+" Point: "+self.featureObj.shape
     
     def handlingObservation(self):
         if RestService.RestService().checkProp_Off(self) == None:
             if RestService.RestService().createNewProp_OFF(self) == None:
-                return 0   
+                return -1   
         
-        result = RestService.RestService().createNewObservation(self)
-        if result == None:
+        result = RestService.RestService().checkObservation(self)
+        if result == 0:
+            result = RestService.RestService().createNewObservation(self)
+            if result == None:
+                return -1
+            # Inserted
+            return 1
+        elif result > 0:
             return 0
-        return 1
-            
+        return result
