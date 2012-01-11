@@ -46,7 +46,7 @@ class Log:
     def getFileSize(self,filePath):
         try:
             statinfo = os.stat(filePath)
-            print statinfo.st_size
+            #print statinfo.st_size
             return statinfo.st_size
         except:
             print "ERROR"

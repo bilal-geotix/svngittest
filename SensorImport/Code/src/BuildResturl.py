@@ -61,5 +61,8 @@ class BuildRestURL:
         if typeID == 17:
             # Insert prop_off
             return self.restServiceUrl + "7/addFeatures"
+        if typeID == 18:
+            # Update observation
+            return self.restServiceUrl + "4/updateFeatures"
         return ""
         

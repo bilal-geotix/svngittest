@@ -19,6 +19,8 @@ class Observation():
     procedure_id = None
     time_stamp_begin = None
     time_stamp = None
+    time_stamp_seconds = None
+    time_stamp_seconds_begin = None
     numeric_value = None
     valid = 1
     def __init__(self):
@@ -36,8 +38,19 @@ class Observation():
         if obj == None:
             # Error
             return -1
-        if obj.objectID == 0:
-            print "DO update"
+        if obj.objectID > 0:
+            valueF = None
+            try:
+                sValue = str(self.numeric_value)
+                valueF = float(sValue)
+            except:
+                return 0
+            if obj.numeric_value != valueF:
+                self.objectID = obj.objectID
+                if RestService.RestService().updateObservation(self) == None:
+                    return -1
+                # updated
+                return 1
             return 0
         result = RestService.RestService().createNewObservation(self)
         if result == None:

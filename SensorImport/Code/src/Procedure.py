@@ -27,6 +27,8 @@ class Procedure:
         if obj == None:
             result = self.createprocedure()
             return result
+        elif obj == -1:
+            return 0
         # Sets the ObejctId for the newly created
         self.procedure_id = obj.procedure_id
         self.x = obj.x
@@ -37,7 +39,8 @@ class Procedure:
             # Create relation procedure_property
             if self.createProc_prop() == 0:
                 return 0
-        
+        elif test == -1:
+            return 0
       
         return 1 
     

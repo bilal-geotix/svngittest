@@ -71,7 +71,7 @@ class RestService:
         resturl += "where=UNIQUE_ID='"+self.encodeStr(procedureObj.unique_id)+"'&time=&returnCountOnly=false&returnIdsOnly=false&returnGeometry=true&outFields=*&f=pjson"
         jsonResponse = self.callRest(resturl,"")
         if self.checkResponse(jsonResponse) == 0:
-            return None
+            return -1
         try:
             temp = Procedure.Procedure()
             temp.procedure_id = jsonResponse['features'][0]['attributes']['OBJECTID']
@@ -129,29 +129,6 @@ class RestService:
             return jsonResponse['addResults'][0]['objectId']
         else:
             return None
-        
-    def createNewObservation(self,observationObj):
-        newObservation = [{"attributes":{}}]
-        newObservation[0][u'attributes']['UNIT_OF_MEASURE'] = str(observationObj.unit_of_measure)
-        newObservation[0][u'attributes']['TEXT_VALUE'] = ""
-        newObservation[0][u'attributes']['NUMERIC_VALUE'] = str(observationObj.numeric_value)
-        #newObservation[0][u'attributes']['TIME_STAMP'] = observationObj.time_stamp
-        #newObservation[0][u'attributes']['TIME_STAMP_BEGIN'] = observationObj.time_stamp_begin
-        newObservation[0][u'attributes']['TIME_STAMP_TEXT'] = observationObj.time_stamp
-        newObservation[0][u'attributes']['TIME_STAMP_BEGIN_TEXT'] = observationObj.time_stamp_begin
-        newObservation[0][u'attributes']['PROPERTY'] = observationObj.property_ref.property_id
-        newObservation[0][u'attributes']['PROCEDURE_'] = observationObj.procedure_ref.procedure_id
-        newObservation[0][u'attributes']['FEATURE'] = observationObj.feature_ref.featureID
-        newObservation[0][u'attributes']['OFFERING'] = observationObj.offering_id
-        resturl = self.buildInstance.buildUrl(11)
-        parameters = {'f' : 'json','features': json.dumps(newObservation)}
-        jsonResponse = self.callRest(resturl, parameters)
-        if self.checkResponse(jsonResponse) == 0:
-            return None
-        if jsonResponse['addResults'][0]['success'] == True:
-            print "New Observation: " + str(jsonResponse['addResults'][0]['objectId'])
-            return jsonResponse['addResults'][0]['objectId']
-        return None
     
     def createNewProcedure(self,procedureObj):
         
@@ -224,7 +201,7 @@ class RestService:
         resturl += "where=PROPERTY_ID="+str(procedureObj.property_id)+"%20and%20PROCEDURE_ID="+str(procedureObj.procedure_id)+"&returnCountOnly=false&returnIdsOnly=true&returnGeometry=false&outFields=*&f=pjson"
         jsonResponse = self.callRest(resturl, "")
         if self.checkResponse(jsonResponse) == 0:
-            return None
+            return -1
         try:
             return jsonResponse['objectIds'][0]
         except:
@@ -264,11 +241,55 @@ class RestService:
                 tempObj.objectID = jsonResponse['features'][0]['attributes']['OBJECTID']
                 tempObj.numeric_value = jsonResponse['features'][0]['attributes']['NUMERIC_VALUE']
                 return tempObj
-            tempObj.objectID = 0
+            tempObj.objectID = -1
             return tempObj
         except:
             tempObj.objectID = -1
             return tempObj
         
     def updateObservation(self,observationObj):
-        return "todo"
+        updateObservation = [{"attributes":{}}]
+        updateObservation[0][u'attributes']['OBJECTID'] = observationObj.objectID
+        updateObservation[0][u'attributes']['UNIT_OF_MEASURE'] = str(observationObj.unit_of_measure)
+        updateObservation[0][u'attributes']['TEXT_VALUE'] = ""
+        updateObservation[0][u'attributes']['NUMERIC_VALUE'] = str(observationObj.numeric_value)
+        updateObservation[0][u'attributes']['TIME_STAMP'] = observationObj.time_stamp_seconds
+        updateObservation[0][u'attributes']['PROPERTY'] = observationObj.property_ref.property_id
+        updateObservation[0][u'attributes']['PROCEDURE_'] = observationObj.procedure_ref.procedure_id
+        updateObservation[0][u'attributes']['FEATURE'] = observationObj.feature_ref.featureID
+        updateObservation[0][u'attributes']['OFFERING'] = observationObj.offering_id
+        updateObservation[0][u'attributes']['TIME_STAMP_TEXT'] = observationObj.time_stamp
+        updateObservation[0][u'attributes']['TIME_STAMP_BEGIN'] = observationObj.time_stamp_seconds_begin
+        updateObservation[0][u'attributes']['TIME_STAMP_BEGIN_TEXT'] = observationObj.time_stamp_begin
+        resturl = self.buildInstance.buildUrl(18)
+        parameters = {'f' : 'json','features': json.dumps(updateObservation)}
+        jsonResponse = self.callRest(resturl, parameters)
+        if self.checkResponse(jsonResponse) == 0:
+            return None
+        if jsonResponse['updateResults'][0]['success'] == True:
+            return jsonResponse['updateResults'][0]['objectId']
+        return None
+    
+    def createNewObservation(self,observationObj):
+        newObservation = [{"attributes":{}}]
+        newObservation[0][u'attributes']['UNIT_OF_MEASURE'] = str(observationObj.unit_of_measure)
+        newObservation[0][u'attributes']['TEXT_VALUE'] = ""
+        newObservation[0][u'attributes']['NUMERIC_VALUE'] = str(observationObj.numeric_value)
+        # A SQL server trigger is used to update these fields
+        #newObservation[0][u'attributes']['TIME_STAMP'] = observationObj.time_stamp
+        #newObservation[0][u'attributes']['TIME_STAMP_BEGIN'] = observationObj.time_stamp_begin
+        newObservation[0][u'attributes']['TIME_STAMP_TEXT'] = observationObj.time_stamp
+        newObservation[0][u'attributes']['TIME_STAMP_BEGIN_TEXT'] = observationObj.time_stamp_begin
+        newObservation[0][u'attributes']['PROPERTY'] = observationObj.property_ref.property_id
+        newObservation[0][u'attributes']['PROCEDURE_'] = observationObj.procedure_ref.procedure_id
+        newObservation[0][u'attributes']['FEATURE'] = observationObj.feature_ref.featureID
+        newObservation[0][u'attributes']['OFFERING'] = observationObj.offering_id
+        resturl = self.buildInstance.buildUrl(11)
+        parameters = {'f' : 'json','features': json.dumps(newObservation)}
+        jsonResponse = self.callRest(resturl, parameters)
+        if self.checkResponse(jsonResponse) == 0:
+            return None
+        if jsonResponse['addResults'][0]['success'] == True:
+            return jsonResponse['addResults'][0]['objectId']
+        return None
+    

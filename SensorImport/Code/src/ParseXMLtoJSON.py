@@ -125,8 +125,10 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                 #TimeHandler.TimeHandler().getEpochTime(ov.getElementsByTagName("gml:TimePeriod")[0].getElementsByTagName("gml:beginPosition")[0].firstChild.data.strip())
                 startVal = ov.getElementsByTagName("gml:TimePeriod")[0].getElementsByTagName("gml:beginPosition")[0].firstChild.data.strip()
                 observationObj.time_stamp_begin = TimeHandler.TimeHandler().getTime(startVal)
+                observationObj.time_stamp_seconds_begin = TimeHandler.TimeHandler().getEpochTime(startVal)
                 endVal = ov.getElementsByTagName("gml:TimePeriod")[0].getElementsByTagName("gml:endPosition")[0].firstChild.data.strip()
                 observationObj.time_stamp = TimeHandler.TimeHandler().getTime(endVal)
+                observationObj.time_stamp_seconds = TimeHandler.TimeHandler().getEpochTime(endVal)
                 
                 observationObj.numeric_value = ov.getElementsByTagName("om:result")[0].firstChild.data.strip()    
                 observationObj.unit_of_measure = ov.getElementsByTagName("om:result")[0].attributes["uom"].nodeValue
@@ -151,17 +153,14 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                     observationTest = obserObj.handlingObservation()
                     if observationTest > 0:
                         message = ""
-                        #Log.Log().writeLog(pathLog, message)
-                        #print "Observation inserted"
+                        # Inserted or updated
+                        # Log.Log().writeLog(pathLog, message)
                     elif observationTest == 0:
                         Log.Log().writeLog(pathLog, "Observation all ready inserted: "+filename)
-                        print "Observation all ready inserted"
                     else:
                         Log.Log().writeLog(pathErrorLog, "ERROR inserting observation: "+filename)
-                        #print "ERROR inserting observation"
                 else:
                     Log.Log().writeLog(pathErrorLog, "Observation xml not valid: "+filename)
-                    #print "Observation not valid"
                         
               
             message = "Inserted observations from file "+filename
