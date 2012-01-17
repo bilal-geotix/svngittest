@@ -1,0 +1,4 @@
+In observation table add following fields:
+time_stamp_text text(50)
+time_stamp_begin_text text(50)
+time_stamp_begin date
