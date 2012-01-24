@@ -11,10 +11,11 @@ class Offering:
     name = ""
     procedure_id = None
     service_id = None
-    def __init__(self,name,procedureID):
+    def __init__(self,name,procedureID, serviceID):
         self.name = name
         self.procedure_id = procedureID
-    
+	self.service_id = serviceID
+	
     def handlingOffering(self):
         service = RestService.RestService()
         id_off = service.getOffering(self)

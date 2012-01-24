@@ -21,18 +21,24 @@ pathError = "data/Failed"
 pathErrorLog = "data/Log/logError.txt"
 pathLog = "data/Log/log.txt"
 maxSize = 1024 * 1024 * 20 # 20 MB
+debug_onoff = 1
 
 # Getobservation files from xml folder
 def getXML(path):
     obj = xml.dom.minidom;
     xmlTemp = obj.parse(path)
     return xmlTemp
+    
+def debug(txt):
+	if debug_onoff == 1:
+		print txt
 
    
-for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
+for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
     message = ""
     observationList = []
     filename = os.path.basename(xmlfilepath)
+    debug("Starting processing: " + filename)
     try:
         
         if Log.Log().getFileSize(xmlfilepath) > maxSize:
@@ -91,10 +97,12 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                     observationObj.procedure_ref = procedureObj
                     
                     # Create new offering
-                    off_obj = Offering.Offering(sensor_name,procedureObj.procedure_id)
+                    off_obj = Offering.Offering(sensor_name,procedureObj.procedure_id,1) #PCK: the service is hardcoded, to be changed
                     if off_obj.handlingOffering() == 0:
                         Log.Log().writeLog(pathErrorLog, "Offering: "+off_obj.name+" couldn't be created: "+filename)
                         raise StopIteration()
+                    else:
+                    	debug("New offering: " + off_obj.name)
                     
                     observationObj.procedure_ref.offering_id = off_obj.offering_id
                     observationObj.offering_id = off_obj.offering_id
@@ -105,6 +113,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                     feature = FeatureOfInterest.FeatureOfInterest()
                     feature.name = sensor_name
                     feature.code_space = codespace
+                    feature.id_value = sensor_name #PCK: should propably be gml:id of sams:SF_SpatialSamplingFeature
                     feature.feature_type = None
                     feature.description = None
                     feature.x = points[1]
@@ -115,6 +124,8 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                     if feature.handling_feature() == 0:
                         observationObj.valid = 0
                         Log.Log().writeLog(pathErrorLog, "Feature couldn't be created or found: "+filename)
+                    else: 
+                    	debug("New feature: " + feature.name)
                    
                     observationObj.feature_gml_id = featureGMLid
                     observationObj.feature_ref = feature
@@ -153,6 +164,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, '*.xml')):
                     observationTest = obserObj.handlingObservation()
                     if observationTest > 0:
                         message = ""
+                        debug("Observation inserted: " + obserObj.numeric_value)
                         # Inserted or updated
                         # Log.Log().writeLog(pathLog, message)
                     elif observationTest == 0:
