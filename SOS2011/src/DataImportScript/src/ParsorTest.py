@@ -1,37 +1,101 @@
-import urllib
-import urllib2
-import json
+
 #import time
 #import TimeHandler
 
 #import shutil
-import os
-import datetime
 #import datetime
+import Offering
+import Property
+import Procedure
+import FeatureOfInterest
+import Observation
+import SDEService
 
 
+
+obj = Offering.Offering("","",1)
+obj.name = 'DCC Unit 12'
+result = SDEService.SDEService().getOffering(obj)
+print result
+
+obj2 = Property.Property("")
+obj2.prop_desc = 'urn:ogc:def:phenomenon:OGC:1.0:30:Noise'
+result2 = SDEService.SDEService().getProperty(obj2)
+print result2
+
+obj3 = Procedure.Procedure()
+obj3.unique_id = "urn:x-eea:object:sensor:noise:IE10001"
+result3 = SDEService.SDEService().getProcedure(obj3)
+if result3 != None and result3 != -1:
+    print str(result3.x)
+else:
+    print result3
+obj3.procedure_id = 1206
+obj3.property_id = 6
+result4 = SDEService.SDEService().checkProp_Proc(obj3)
+print result4
+
+obj4 = FeatureOfInterest.FeatureOfInterest()
+obj4.name = "DCC Unit 7"
+result5 = SDEService.SDEService().getFeature(obj4)
+if result5 != None and result5 != -1:
+    print result5.featureID
+
+obj5 = Observation.Observation()
+obj5.offering_id = 1630
+obj5.property_id = 6
+result6 = SDEService.SDEService().checkProp_Off(obj5)
+print result6
+
+obj6 = FeatureOfInterest.FeatureOfInterest()
+obj6.name = "DCC Unit 7"
+obj6.offering_id = 1630
+obj6.featureID = 1829
+result7 = SDEService.SDEService().checkFoi_Off(obj6)
+print result7
+
+#"OBJECTID": 24895,
+#"UNIT_OF_MEASURE": "dB",
+#"TEXT_VALUE": "",
+#"NUMERIC_VALUE": 41.43,
+#"TIME_STAMP": 1326758700000,
+#"PROPERTY": 6,
+#"PROCEDURE_": 806,
+#"FEATURE": 1818,
+#"OFFERING": 1619,
+#"TIME_STAMP_TEXT": "2012-01-17T00:05:00",
+#"TIME_STAMP_BEGIN": 1326758400000,
+#"TIME_STAMP_BEGIN_TEXT": "2012-01-17T00:00:00"
+obj7 = Observation.Observation()
+obj7.time_stamp = "2012-01-17T00:15:00" 
+prop = Property.Property("")
+prop.property_id = 6
+obj7.property_ref = prop   
+obj7.offering_id = 1619
+obj7.time_stamp_begin = "2012-01-17T00:10:00"
+prod = Procedure.Procedure()
+prod.procedure_id = 806
+obj7.procedure_ref = prod
+feat = FeatureOfInterest.FeatureOfInterest()
+feat.featureID = 1818
+obj7.feature_ref = feat
+result8 = SDEService.SDEService().checkObservation(obj7)
+if result8 == None:
+    print "error"
+else:
+    print result8.objectID
+    print result8.numeric_value
+    
+obj9 = Procedure.Procedure()
+obj9.procedure_id = 1216
+obj9.property_id = 6
+result10 = SDEService.SDEService().createNewProc_Prop(obj9)
+print result10
 #import pytz
-pathLog = "data/Log/log22.txt"
-now = datetime.datetime.now()
-logTime = now.strftime("%Y-%m-%d %H:%M")
-try:
-    statinfo = os.stat(pathLog)
-        
-    print statinfo.st_size 
-    fn = None
-    if not os.path.exists(pathLog):  
-        print "Not"
-        #fn = open(pathLog, "w")
-    else:
-        #fn = open(pathLog, "a")
-        statinfo = os.stat(pathLog)
-        
-        print statinfo.st_size 
-    #fn.write(logTime +"ddd \n")
-    #fn.close()
-    print "OK"
-except:
-    print "Error"
+#pathLog = "data/Log/log22.txt"
+#now = datetime.datetime.now()
+#logTime = now.strftime("%Y-%m-%d %H:%M")
+
 
 #from datetime import datetime
 #s = '2010-06-02T01:13:01.001'
@@ -82,17 +146,7 @@ except:
 #test = str2.split(" ")
 #print str(test.len()) + str(test[0])+" : "+str(test[1])
 
-def callRest(url,parameters):
-    try:
-        req = urllib2.Request(url, urllib.urlencode(parameters))   
-        f = urllib2.urlopen(req)
-        response = f.read()
-        f.close()
-        return json.loads(response)
-    except:
-        return [{"error" : {"code": 400,"meesage" : "CallError:"+url}}]
-def urlStr(strToEncode):
-    return urllib.urlencode(strToEncode)
+
 
 
 #tp = '2010-06-02T01:00:00.000+2:00'

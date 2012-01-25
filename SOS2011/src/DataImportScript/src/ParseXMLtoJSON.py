@@ -30,8 +30,8 @@ def getXML(path):
     return xmlTemp
     
 def debug(txt):
-	if debug_onoff == 1:
-		print txt
+    if debug_onoff == 1:
+        print txt
 
    
 for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
@@ -102,7 +102,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                         Log.Log().writeLog(pathErrorLog, "Offering: "+off_obj.name+" couldn't be created: "+filename)
                         raise StopIteration()
                     else:
-                    	debug("New offering: " + off_obj.name)
+                        debug("New offering: " + off_obj.name)
                     
                     observationObj.procedure_ref.offering_id = off_obj.offering_id
                     observationObj.offering_id = off_obj.offering_id
@@ -125,7 +125,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                         observationObj.valid = 0
                         Log.Log().writeLog(pathErrorLog, "Feature couldn't be created or found: "+filename)
                     else: 
-                    	debug("New feature: " + feature.name)
+                        debug("New feature: " + feature.name)
                    
                     observationObj.feature_gml_id = featureGMLid
                     observationObj.feature_ref = feature

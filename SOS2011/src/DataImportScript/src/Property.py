@@ -21,11 +21,9 @@ class Property:
         # Test that the property exist
         if obj == None:
             return 0
-        self.property_id = obj
-        # Test the offering have this property
-        #if self.checkProperty() == 0:
-        #return 0
-        
+        elif obj == -1:
+            return 0
+        self.property_id = obj   
         return 1
     
     def checkProperty(self):

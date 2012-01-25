@@ -27,9 +27,11 @@ class FeatureOfInterest():
         if obj == None:
             result = self.createfeature()
             return result
-   
+        elif obj == -1:
+            return 0
         self.featureID = obj.featureID
-        if RestService.RestService().checkFoi_Off(self) == None:
+        resultCheck =RestService.RestService().checkFoi_Off(self)
+        if resultCheck == None or resultCheck == -1:
             return 0
         return 1
     

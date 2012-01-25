@@ -6,6 +6,7 @@ Created on 8 Dec 2011
 
 class BuildRestURL:
     restServiceUrl ="http://discomap.eea.europa.eu/ArcGIS/rest/services/Test/SOS/FeatureServer/"
+    #http://mite:6080/arcgis/rest/services/SOS/SOS_noise/MapServer
     def __init__(self):
         return
     

@@ -30,10 +30,12 @@ class Observation():
         return "test"#return "feaID: " + str(self.feature_of_interest_id) + " Time: " + str(self.time_stamp) +" value: "+self.numeric_value +" OffID; "+str(self.offering_id)+" PropID: "+str(self.property_id)+" ProcedureID: "+str(self.procedure_id)+" Point: "+self.featureObj.shape
     
     def handlingObservation(self):
-        if RestService.RestService().checkProp_Off(self) == None:
+        resultCheck = RestService.RestService().checkProp_Off(self)
+        if resultCheck == None:
             if RestService.RestService().createNewProp_OFF(self) == None:
                 return -1   
-        
+        elif RestService.RestService() == -1:
+            return -1
         obj = RestService.RestService().checkObservation(self)
         if obj == None:
             # Error
