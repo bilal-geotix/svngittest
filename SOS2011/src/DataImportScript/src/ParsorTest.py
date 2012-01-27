@@ -54,24 +54,12 @@ obj6.featureID = 1829
 result7 = SDEService.SDEService().checkFoi_Off(obj6)
 print result7
 
-#"OBJECTID": 24895,
-#"UNIT_OF_MEASURE": "dB",
-#"TEXT_VALUE": "",
-#"NUMERIC_VALUE": 41.43,
-#"TIME_STAMP": 1326758700000,
-#"PROPERTY": 6,
-#"PROCEDURE_": 806,
-#"FEATURE": 1818,
-#"OFFERING": 1619,
-#"TIME_STAMP_TEXT": "2012-01-17T00:05:00",
-#"TIME_STAMP_BEGIN": 1326758400000,
-#"TIME_STAMP_BEGIN_TEXT": "2012-01-17T00:00:00"
 obj7 = Observation.Observation()
 obj7.time_stamp = "2012-01-17T00:15:00" 
 prop = Property.Property("")
 prop.property_id = 6
 obj7.property_ref = prop   
-obj7.offering_id = 1619
+obj7.offering_id = 1619#1111
 obj7.time_stamp_begin = "2012-01-17T00:10:00"
 prod = Procedure.Procedure()
 prod.procedure_id = 806
@@ -86,12 +74,99 @@ else:
     print result8.objectID
     print result8.numeric_value
     
-obj9 = Procedure.Procedure()
-obj9.procedure_id = 1216
-obj9.property_id = 6
-result10 = SDEService.SDEService().createNewProc_Prop(obj9)
-print result10
-#import pytz
+#obj9 = Procedure.Procedure()
+#obj9.procedure_id = 1216
+#obj9.property_id = 6
+#result10 = SDEService.SDEService().createNewProc_Prop(obj9)
+#print result10
+
+#obj5 = Observation.Observation()
+#obj5.offering_id = 1630
+#obj5.property_id = 7111 #Change to 6 to test 
+#result6 = SDEService.SDEService().createNewProp_OFF(obj5)
+#print result6
+
+
+#obj6 = FeatureOfInterest.FeatureOfInterest()
+#obj6.offering_id = 1
+#obj6.featureID = 9000
+#result7 = SDEService.SDEService().createNewFoi_Off(obj6)
+#print result7
+
+#createNewOffering
+#obj = Offering.Offering("","",1)
+#obj.name = 'DCC Unit Test'
+#obj.service_id = 1
+#obj.procedure_id = 806
+#result = SDEService.SDEService().createNewOffering(obj)
+#print result
+
+
+#createNewProcedure
+#obj9 = Procedure.Procedure()
+#obj9.x = -4.2477339999999231
+#obj9.y =  53.323524000000077
+#obj9.longname = "Test"
+#obj9.unique_id = "Test"
+#result10 = SDEService.SDEService().createNewProcedure(obj9)
+#print result10
+
+#createNewFeature
+#obj6 = FeatureOfInterest.FeatureOfInterest()
+#obj6.name = "Test"
+#obj6.description = ""
+#obj6.id_value = "Test"
+#obj6.code_space = "333ffd"
+#obj6.sampled_feature_url = ""
+#obj6.x = -4.2477339999999231
+#obj6.y = 53.323524000000077
+#result7 = SDEService.SDEService().createNewFeature(obj6)
+#print result7
+
+
+#createNewObservation
+#obj7 = Observation.Observation()
+#obj7.time_stamp = "2012-01-25T00:15:00" 
+#prop = Property.Property("")
+#prop.property_id = 6
+#obj7.property_ref = prop   
+#obj7.offering_id = 1619#1111
+#obj7.time_stamp_begin = "2012-01-25T00:10:00"
+#prod = Procedure.Procedure()
+#prod.procedure_id = 806
+#obj7.procedure_ref = prod
+#feat = FeatureOfInterest.FeatureOfInterest()
+#feat.featureID = 1818
+#obj7.feature_ref = feat
+#result8 = SDEService.SDEService().createNewObservation(obj7)
+#if result8 == None:
+#    print "error"
+#else:
+#    print result8
+
+#updateObservation
+#obj7 = Observation.Observation()
+#obj7.objectID = 4918699
+#obj7.time_stamp = "2012-01-25T00:15:00" 
+#prop = Property.Property("")
+#prop.property_id = 6
+#obj7.property_ref = prop   
+#obj7.offering_id = 1619#1111
+#obj7.time_stamp_begin = "2012-01-25T00:10:00"
+#prod = Procedure.Procedure()
+#prod.procedure_id = 806
+#obj7.procedure_ref = prod
+#feat = FeatureOfInterest.FeatureOfInterest()
+#feat.featureID = 1818
+#obj7.feature_ref = feat
+#obj7.numeric_value = 58
+#result8 = SDEService.SDEService().updateObservation(obj7)
+#if result8 == None:
+#    print "error"
+#else:
+#    print result8
+
+
 #pathLog = "data/Log/log22.txt"
 #now = datetime.datetime.now()
 #logTime = now.strftime("%Y-%m-%d %H:%M")

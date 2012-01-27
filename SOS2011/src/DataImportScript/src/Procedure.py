@@ -41,7 +41,6 @@ class Procedure:
                 return 0
         elif test == -1:
             return 0
-      
         return 1 
     
     def createprocedure(self):

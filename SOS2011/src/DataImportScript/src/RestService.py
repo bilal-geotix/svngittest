@@ -99,7 +99,7 @@ class RestService:
         newOffering = [{"attributes":{}}]
         newOffering[0][u'attributes']['OFFERING_NAME'] = str(offeringObj.name)
         newOffering[0][u'attributes']['PROCEDURE_'] = str(offeringObj.procedure_id)
-        #newOffering[0][u'attributes']['SERVICE'] = offeringObj.service_id
+        newOffering[0][u'attributes']['SERVICE'] = str(offeringObj.service_id)
         resturl = self.buildInstance.buildUrl(16)
         parameters = {'f' : 'json','features': json.dumps(newOffering)}
         jsonResponse = self.callRest(resturl, parameters)
