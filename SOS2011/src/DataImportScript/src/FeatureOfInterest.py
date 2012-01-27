@@ -4,8 +4,8 @@ Created on 23 Nov 2011
 @author: berg3428
 '''
 
-import RestService
-
+#import RestService
+import Service_API
 class FeatureOfInterest():
     '''
     Feature_of_interest
@@ -23,27 +23,30 @@ class FeatureOfInterest():
     def __init__(self):
         return
     def handling_feature(self):
-        obj = RestService.RestService().getFeature(self)
+        service_Instance = Service_API.ServiceAPI().getServceInstance()
+        obj = service_Instance.getFeature(self)
         if obj == None:
             result = self.createfeature()
             return result
         elif obj == -1:
             return 0
         self.featureID = obj.featureID
-        resultCheck =RestService.RestService().checkFoi_Off(self)
+        resultCheck = service_Instance.checkFoi_Off(self)
         if resultCheck == None or resultCheck == -1:
             return 0
         return 1
     
     def createfeature(self):
-        feaID = RestService.RestService().createNewFeature(self)
+        service_Instance = Service_API.ServiceAPI().getServceInstance()
+        feaID = service_Instance.createNewFeature(self)
         if feaID == None:
             return 0
         self.featureID = feaID 
         return self.create_Foi_off()
     
     def create_Foi_off(self):
-        result = RestService.RestService().createNewFoi_Off(self)
+        service_Instance = Service_API.ServiceAPI().getServceInstance()
+        result = service_Instance.createNewFoi_Off(self)
         if result == None:
             return 0
         return 1

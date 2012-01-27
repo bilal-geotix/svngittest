@@ -10,8 +10,12 @@ import Procedure
 import FeatureOfInterest
 import Observation
 import SDEService
+import Service_API
 
-
+obj = Offering.Offering("","",1)
+obj.name = 'DCC Unit 12'
+instanceTest = Service_API.ServiceAPI().getServceInstance()
+print instanceTest.getOffering(obj)
 
 obj = Offering.Offering("","",1)
 obj.name = 'DCC Unit 12'

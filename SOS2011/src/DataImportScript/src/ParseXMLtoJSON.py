@@ -14,6 +14,8 @@ import Property
 import Procedure
 import Log
 import TimeHandler
+import sys
+import traceback
 
 pathPickup = "data/Test"
 pathInserted = "data/Inserted"
@@ -182,17 +184,23 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                    
     except StopIteration:
         errorFilePath = os.path.join(pathError, filename)
-        Log.Log().copyFile(xmlfilepath, errorFilePath)  
+        if(Log.Log().copyFile(xmlfilepath, errorFilePath)) == 1:
+            Log.Log().deleteFile(xmlfilepath)
         #Log.Log().writeLog(pathErrorLog, message)
     except AttributeError:
         errorFilePath = os.path.join(pathError, filename)
-        Log.Log().copyFile(xmlfilepath, errorFilePath)
+        if(Log.Log().copyFile(xmlfilepath, errorFilePath)) == 1:
+            Log.Log().deleteFile(xmlfilepath) 
         message = "XML parse error: "+filename
         Log.Log().writeLog(pathErrorLog, message)
     except:
         errorFilePath = os.path.join(pathError, filename)
-        Log.Log().copyFile(xmlfilepath, errorFilePath)
-        message = "Uncaught error: "+filename
+        if(Log.Log().copyFile(xmlfilepath, errorFilePath)) == 1:
+            Log.Log().deleteFile(xmlfilepath)    
+        tb = sys.exc_info()[2]
+        tbinfo = traceback.format_tb(tb)[0]
+        message = "PYTHON ERRORS:\nTraceback info:\n" + tbinfo + "\nError Info:\n" + str(sys.exc_info()[1])
+        message += " Uncaught error: "+filename
         Log.Log().writeLog(pathErrorLog, message)
     ##continue with loop for next xml file
         

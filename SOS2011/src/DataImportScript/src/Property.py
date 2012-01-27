@@ -3,8 +3,8 @@ Created on 24 Nov 2011
 
 @author: berg3428
 '''
-import RestService
-
+#import RestService
+import Service_API
 class Property:
     property_id = -1
     offering_id = -1
@@ -17,7 +17,8 @@ class Property:
         self.property_id = self.property_id
     
     def handlingProperty(self):
-        obj = RestService.RestService().getProperty(self)
+        serviceInstance = Service_API.ServiceAPI().getServceInstance()  
+        obj = serviceInstance.getProperty(self)
         # Test that the property exist
         if obj == None:
             return 0
@@ -27,7 +28,8 @@ class Property:
         return 1
     
     def checkProperty(self):
-        result = RestService.RestService().checkProp_Off(self)
+        serviceInstance = Service_API.ServiceAPI().getServceInstance()
+        result = serviceInstance.checkProp_Off(self)
         if result == None:
             return 0
         return 1

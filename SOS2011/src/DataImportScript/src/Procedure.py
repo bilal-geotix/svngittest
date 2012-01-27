@@ -3,7 +3,8 @@ Created on 8 Dec 2011
 
 @author: berg3428
 '''
-import RestService
+#import RestService
+import Service_API
 class Procedure:
   
     procedure_id = None
@@ -21,7 +22,8 @@ class Procedure:
     
     def handlingProcedure(self):
         # Gets the procedure
-        obj = RestService.RestService().getProcedure(self)
+        serviceInstance = Service_API.ServiceAPI().getServceInstance()
+        obj = serviceInstance.getProcedure(self)
         
         # Create new if not existing
         if obj == None:
@@ -33,7 +35,7 @@ class Procedure:
         self.procedure_id = obj.procedure_id
         self.x = obj.x
         self.y = obj.y 
-        test = RestService.RestService().checkProp_Proc(self)
+        test = serviceInstance.checkProp_Proc(self)
         
         if test == None:
             # Create relation procedure_property
@@ -44,7 +46,8 @@ class Procedure:
         return 1 
     
     def createprocedure(self):
-        procID = RestService.RestService().createNewProcedure(self)
+        serviceInstance = Service_API.ServiceAPI().getServceInstance()
+        procID = serviceInstance.createNewProcedure(self)
         if procID == None:
             return 0
         self.procedure_id = procID
@@ -56,8 +59,9 @@ class Procedure:
     def updateprocedure(self):
         return 1
     
-    def createProc_prop(self):    
-        result = RestService.RestService().createNewProc_Prop(self)
+    def createProc_prop(self):
+        serviceInstance = Service_API.ServiceAPI().getServceInstance()  
+        result = serviceInstance.createNewProc_Prop(self)
         if result == None:
             return 0
         return 1

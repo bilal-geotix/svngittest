@@ -4,8 +4,8 @@ Created on 21 Nov 2011
 @author: berg3428
 '''
 
-import RestService
-
+#import RestService
+import Service_API
 class Observation():
     
     objectID = -1
@@ -27,16 +27,17 @@ class Observation():
         return
     
     def __str__(self):
-        return "test"#return "feaID: " + str(self.feature_of_interest_id) + " Time: " + str(self.time_stamp) +" value: "+self.numeric_value +" OffID; "+str(self.offering_id)+" PropID: "+str(self.property_id)+" ProcedureID: "+str(self.procedure_id)+" Point: "+self.featureObj.shape
+        return ""
     
     def handlingObservation(self):
-        resultCheck = RestService.RestService().checkProp_Off(self)
+        service_Instance = Service_API.ServiceAPI().getServceInstance()
+        resultCheck = service_Instance.checkProp_Off(self)#RestService.RestService()
         if resultCheck == None:
-            if RestService.RestService().createNewProp_OFF(self) == None:
+            if service_Instance.createNewProp_OFF(self) == None:
                 return -1   
-        elif RestService.RestService() == -1:
+        elif resultCheck == -1:
             return -1
-        obj = RestService.RestService().checkObservation(self)
+        obj = service_Instance.checkObservation(self)
         if obj == None:
             # Error
             return -1
@@ -49,12 +50,12 @@ class Observation():
                 return 0
             if obj.numeric_value != valueF:
                 self.objectID = obj.objectID
-                if RestService.RestService().updateObservation(self) == None:
+                if service_Instance.updateObservation(self) == None:
                     return -1
                 # updated
                 return 1
             return 0
-        result = RestService.RestService().createNewObservation(self)
+        result = service_Instance.createNewObservation(self)
         if result == None:
             return -1
         # Inserted

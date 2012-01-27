@@ -3,7 +3,8 @@ Created on 23 Nov 2011
 
 @author: berg3428
 '''
-import RestService
+#import RestService
+import Service_API
 
 class Offering:
 
@@ -17,7 +18,7 @@ class Offering:
         self.service_id = serviceID
         
     def handlingOffering(self):
-        service = RestService.RestService()
+        service =  Service_API.ServiceAPI().getServceInstance() #RestService.RestService()
         id_off = service.getOffering(self)
         if id_off == None:
             newid = service.createNewOffering(self)
@@ -36,7 +37,7 @@ class Offering:
         return bool(1)
     
     def findOfferingId(self):
-        id_off = RestService.RestService().getOffering(self)
+        id_off =  Service_API.ServiceAPI().getServceInstance().getOffering(self)#RestService.RestService().getOffering(self)
         if id_off == None:
             return 0
         else:
