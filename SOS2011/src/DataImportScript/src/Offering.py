@@ -4,6 +4,7 @@ Created on 23 Nov 2011
 @author: berg3428
 '''
 #import RestService
+import Log
 import Service_API
 
 class Offering:
@@ -25,12 +26,14 @@ class Offering:
             if newid == None:
                 return 0
             self.offering_id = newid
+            Log.Log().ConsoleOutput("New offering" + str(self.offering_id))
             return 1
         else:
             if id_off == -1:
                 return 0
             else:
                 self.offering_id = id_off 
+                Log.Log().ConsoleOutput("Existing offering found: " + str(self.offering_id))
                 return 1 
         
     def exist(self):

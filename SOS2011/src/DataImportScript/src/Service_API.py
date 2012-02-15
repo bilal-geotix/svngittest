@@ -14,7 +14,7 @@ class ServiceAPI:
     
     '''
     # 0 for sde otherwise rest
-    type_to_use  = 1
+    type_to_use  = 0
 
     def __init__(self):
         '''

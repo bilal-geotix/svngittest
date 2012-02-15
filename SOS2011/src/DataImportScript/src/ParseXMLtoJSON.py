@@ -4,6 +4,7 @@ Created on 21 Nov 2011
 @author: berg3428
 '''
 
+
 import xml.dom.minidom
 import glob
 import os
@@ -25,22 +26,21 @@ pathLog = "data/Log/log.txt"
 maxSize = 1024 * 1024 * 20 # 20 MB
 debug_onoff = 1
 
+
 # Getobservation files from xml folder
 def getXML(path):
     obj = xml.dom.minidom;
     xmlTemp = obj.parse(path)
-    return xmlTemp
-    
-def debug(txt):
-    if debug_onoff == 1:
-        print txt
+    return xmlTemp    
 
-   
+
+Log.Log().ConsoleOutput("---Started - looking for files to process---")   
+
 for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
     message = ""
     observationList = []
     filename = os.path.basename(xmlfilepath)
-    debug("Starting processing: " + filename)
+    Log.Log().ConsoleOutput("Starting processing: " + filename)
     try:
         
         if Log.Log().getFileSize(xmlfilepath) > maxSize:
@@ -103,9 +103,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                     if off_obj.handlingOffering() == 0:
                         Log.Log().writeLog(pathErrorLog, "Offering: "+off_obj.name+" couldn't be created: "+filename)
                         raise StopIteration()
-                    else:
-                        debug("New offering: " + off_obj.name)
-                    
+                                        
                     observationObj.procedure_ref.offering_id = off_obj.offering_id
                     observationObj.offering_id = off_obj.offering_id
                     codespaceNode = featureOfInterest.getElementsByTagName("gml:identifier")
@@ -126,9 +124,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                     if feature.handling_feature() == 0:
                         observationObj.valid = 0
                         Log.Log().writeLog(pathErrorLog, "Feature couldn't be created or found: "+filename)
-                    else: 
-                        debug("New feature: " + feature.name)
-                   
+                                       
                     observationObj.feature_gml_id = featureGMLid
                     observationObj.feature_ref = feature
                 else:
@@ -166,7 +162,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                     observationTest = obserObj.handlingObservation()
                     if observationTest > 0:
                         message = ""
-                        debug("Observation inserted: " + obserObj.numeric_value)
+                        Log.Log().ConsoleOutput("Observation inserted: " + obserObj.numeric_value)
                         # Inserted or updated
                         # Log.Log().writeLog(pathLog, message)
                     elif observationTest == 0:
@@ -203,4 +199,5 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
         message += " Uncaught error: "+filename
         Log.Log().writeLog(pathErrorLog, message)
     ##continue with loop for next xml file
+Log.Log().ConsoleOutput("---End---")
         

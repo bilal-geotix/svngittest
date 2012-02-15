@@ -5,7 +5,9 @@ Created on 23 Nov 2011
 '''
 
 #import RestService
+import Log
 import Service_API
+
 class FeatureOfInterest():
     '''
     Feature_of_interest
@@ -27,10 +29,13 @@ class FeatureOfInterest():
         obj = service_Instance.getFeature(self)
         if obj == None:
             result = self.createfeature()
+            Log.Log().ConsoleOutput("New feature created: " + self.name)
+            
             return result
-        elif obj == -1:
+        elif obj == -1:            
             return 0
         self.featureID = obj.featureID
+        #DebugMsg("Feature: " + self.featureID)
         resultCheck = service_Instance.checkFoi_Off(self)
         if resultCheck == None or resultCheck == -1:
             return 0

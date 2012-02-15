@@ -4,6 +4,7 @@ Created on 8 Dec 2011
 @author: berg3428
 '''
 #import RestService
+import Log
 import Service_API
 class Procedure:
   
@@ -28,6 +29,7 @@ class Procedure:
         # Create new if not existing
         if obj == None:
             result = self.createprocedure()
+            Log.Log().ConsoleOutput("New procedure created")
             return result
         elif obj == -1:
             return 0

@@ -51,3 +51,7 @@ class Log:
         except:
             print "ERROR"
             return -1 
+    
+    def ConsoleOutput(self, txt):
+        print txt
+        return 1
