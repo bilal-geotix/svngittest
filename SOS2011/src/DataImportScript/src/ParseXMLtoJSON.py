@@ -162,7 +162,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                     observationTest = obserObj.handlingObservation()
                     if observationTest > 0:
                         message = ""
-                        Log.Log().ConsoleOutput("Observation inserted: " + obserObj.numeric_value)
+                        Log.Log().ConsoleOutput("Observation inserted: " + str(obserObj.numeric_value))
                         # Inserted or updated
                         # Log.Log().writeLog(pathLog, message)
                     elif observationTest == 0:
