@@ -58,9 +58,9 @@ class Observation():
             return 0
         result = service_Instance.createNewObservation(self)
         if result == None:
-            Log.Log.ConsoleOutput("Failed to insert observation")
+            Log.Log().ConsoleOutput("Failed to insert observation")
             return -1
         # Inserted
-        Log.Log.ConsoleOutput("Observation inserted: " + str(self.numeric_value))
+        Log.Log().ConsoleOutput("Observation inserted: " + str(self.numeric_value))
         return 1
         
