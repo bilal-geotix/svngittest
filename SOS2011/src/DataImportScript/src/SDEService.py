@@ -12,6 +12,9 @@ import FeatureOfInterest
 import Observation
 
 
+
+
+
 class SDEService():
     
     def __init__(self):
@@ -19,11 +22,11 @@ class SDEService():
         return
     
     def getOffering(self,offeringObj):
-        
+        row = None
+        rows = None
+        sdeConn = None
         try:
-            row = None
-            rows = None
-            sdeConn = None
+           
             sdeConn = arcpy.ArcSDESQLExecute(self.sp.getFullPath())
             sql = "select top(1) * from dbo.Offering where OFFERING_NAME='"+str(offeringObj.name)+"'"
             rows = sdeConn.execute(sql)
@@ -47,11 +50,11 @@ class SDEService():
                 del sdeConn 
             
     def getProperty(self,propertyObj):
-        
+        row = None
+        rows = None
+        sdeConn = None
         try:
-            row = None
-            rows = None
-            sdeConn = None
+            
             sdeConn = arcpy.ArcSDESQLExecute(self.sp.getFullPath())
             sql = "select top(1) * from dbo.Property where PROPERTY_DESCRIPTION='"+str(propertyObj.prop_desc)+"'"
             rows = sdeConn.execute(sql)
@@ -75,11 +78,10 @@ class SDEService():
                 del sdeConn 
     
     def checkProp_Proc(self,procedureObj):
-        
+        row = None
+        rows = None
+        sdeConn = None
         try:
-            row = None
-            sdeConn = None
-            rows = None
             sdeConn = arcpy.ArcSDESQLExecute(self.sp.getFullPath())
             sql = "select top(1) * from dbo.Proc_prop where PROPERTY_ID = '"+str(procedureObj.property_id)+"' AND PROCEDURE_ID='"+str(procedureObj.procedure_id)+"'"
         
@@ -105,12 +107,11 @@ class SDEService():
         
         
     def getProcedure(self,procedureObj):
-        
+        row = None
+        rows = None
         try:
             query = "UNIQUE_ID='"+str(procedureObj.unique_id)+"'" 
-            rows = None
             shapefieldname ="geometry"
-        
             desc = arcpy.Describe(self.sp.getTPath("t_procedure"))
             shapefieldname = desc.ShapeFieldName
             del desc
@@ -137,11 +138,10 @@ class SDEService():
                 del rows
     
     def getFeature(self,featureObj):
-       
+        row = None
+        rows = None
         try:
-            query = "NAME = '"+str(featureObj.name)+"'" 
-            rows = None
-            row = None
+            query = "NAME = '"+str(featureObj.name)+"'"    
             rows = arcpy.SearchCursor(self.sp.getTPath("t_feature"),query)
             temp = FeatureOfInterest.FeatureOfInterest()
             for row in rows:
@@ -158,12 +158,10 @@ class SDEService():
                 del rows
     
     def checkProp_Off(self,observationObj):
-        
-        try:
-            row = None
-            rows = None
-            sdeConn = None
-            
+        row = None
+        rows = None
+        sdeConn = None
+        try:   
             sdeConn = arcpy.ArcSDESQLExecute(self.sp.getFullPath())
             sql = "select top(1) * from dbo.Prop_Off where PROPERTY_ID = '"+str(observationObj.property_id)+"' AND OFFERING_ID ='"+str(observationObj.offering_id)+"'"
             rows = sdeConn.execute(sql) 
@@ -182,8 +180,7 @@ class SDEService():
             if sdeConn:
                 del sdeConn 
      
-    def checkFoi_Off(self,featureObj):
-        
+    def checkFoi_Off(self,featureObj):    
         row = None
         rows = None
         sdeConn = None
@@ -208,12 +205,10 @@ class SDEService():
                 del sdeConn 
      
     def checkObservation(self,observationObj):
-        
+        row = None
+        rows = None
+        sdeConn = None
         try:
-            row = None
-            rows = None
-            sdeConn = None
-      
             sdeConn = arcpy.ArcSDESQLExecute(self.sp.getFullPath())
             sql = "select top(1) OBJECTID,NUMERIC_VALUE from dbo.Observation where PROPERTY='"+str(observationObj.property_ref.property_id)+"' and OFFERING='"+str(observationObj.offering_id)+"' and PROCEDURE_='"+str(observationObj.procedure_ref.procedure_id)+"' and FEATURE='"+str(observationObj.feature_ref.featureID)+"' and TIME_STAMP='"+observationObj.time_stamp+"' and TIME_STAMP_BEGIN='"+observationObj.time_stamp_begin+"'"   
             rows = sdeConn.execute(sql)
@@ -238,10 +233,10 @@ class SDEService():
                 del sdeConn 
         
     def createNewProc_Prop(self,procedureObj):
-        try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
+        row = None
+        insert_cs = None  
+        sdeConn = None
+        try:  
             # Gets the full table path by calling the sdeProperties function getTPath('Tablereferencename')
             insert_cs = arcpy.InsertCursor(self.sp.getTPath('t_proc_prop'))
             row = insert_cs.newRow() 
@@ -265,11 +260,10 @@ class SDEService():
                 del sdeConn 
     
     def createNewProp_OFF(self,observationObj):
-        
-        try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
+        row = None
+        insert_cs = None  
+        sdeConn = None
+        try:   
             # Gets the full table path by calling the sdeProperties function getTPath('Tablereferencename')
             insert_cs = arcpy.InsertCursor(self.sp.getTPath('t_prop_off'))
             row = insert_cs.newRow() 
@@ -293,11 +287,10 @@ class SDEService():
                 del sdeConn
     
     def createNewFoi_Off(self,featureObj):
-        
+        row = None
+        insert_cs = None  
+        sdeConn = None
         try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
             # Gets the full table path by calling the sdeProperties function getTPath('Tablereferencename')
             insert_cs = arcpy.InsertCursor(self.sp.getTPath('t_foi_off'))
             row = insert_cs.newRow() 
@@ -321,11 +314,10 @@ class SDEService():
                 del sdeConn
                 
     def createNewOffering(self,offeringObj):
-        
-        try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
+        row = None
+        insert_cs = None  
+        sdeConn = None
+        try:   
             # Gets the full table path by calling the sdeProperties function getTPath('Tablereferencename')
             insert_cs = arcpy.InsertCursor(self.sp.getTPath('t_offering'))
             row = insert_cs.newRow() 
@@ -351,22 +343,21 @@ class SDEService():
                 del sdeConn
                 
     def createNewProcedure(self,procedureObj):
-        
+        row = None
+        insert_cs = None  
+        sdeConn = None
+        array_container = arcpy.Array()
         try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
-            
+
             point_object = arcpy.Point()
-            array_container = arcpy.Array()
             point_object.X = procedureObj.x
             point_object.Y = procedureObj.y
+            print ""+str(point_object.X)+ " " + str(point_object.Y) 
             array_container.add(point_object) #put first point in container
-            
             desc = arcpy.Describe(self.sp.getTPath('t_procedure'))
             shapefieldname = desc.ShapeFieldName
             del desc
-            
+            print shapefieldname
             insert_cs = arcpy.InsertCursor(self.sp.getTPath('t_procedure'))
             row = insert_cs.newRow() 
             row.setValue("LONG_NAME",str(procedureObj.longname))
@@ -399,11 +390,11 @@ class SDEService():
                 del array_container
                 
     def createNewFeature(self,featureObj):
-        
+        row = None
+        insert_cs = None  
+        sdeConn = None
         try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
+            
             
             point_object = arcpy.Point()
             point_object.X = featureObj.x
@@ -440,11 +431,10 @@ class SDEService():
                 del sdeConn
                 
     def createNewObservation(self,observationObj):
-        
-        try:
-            row = None
-            insert_cs = None  
-            sdeConn = None
+        row = None
+        insert_cs = None  
+        sdeConn = None
+        try:    
             
             insert_cs = arcpy.InsertCursor(self.sp.getTPath('t_observation'))
             row = insert_cs.newRow() 
@@ -483,10 +473,10 @@ class SDEService():
                 del sdeConn
                 
     def updateObservation(self,observationObj):
-        
+        row = None
+        update_cs = None
         try:
-            row = None
-            update_cs = None
+          
             qWhere = " OBJECTID = '"+str(observationObj.objectID)+"' and PROCEDURE_ = '"+str(observationObj.procedure_ref.procedure_id)+"' AND FEATURE = '"+str(observationObj.feature_ref.featureID)+"'"
             update_cs = arcpy.UpdateCursor(self.sp.getTPath('t_observation'),qWhere)
             for row in update_cs:

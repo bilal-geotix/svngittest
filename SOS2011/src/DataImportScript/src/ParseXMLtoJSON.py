@@ -18,6 +18,7 @@ import TimeHandler
 import sys
 import traceback
 
+
 pathPickup = "data/Test"
 pathInserted = "data/Inserted"
 pathError = "data/Failed"
@@ -87,10 +88,10 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                     
                     # Sensor name
                     sensor_name = nameNode[0].firstChild.data.strip()
-                    
+                 
                     # Create new procedure and Proc_prop
-                    procedureObj.x = points[1]
-                    procedureObj.y = points[0]
+                    procedureObj.x = float(points[1])
+                    procedureObj.y = float(points[0])
                     procedureObj.property_id = observationObj.property_id
                     if procedureObj.handlingProcedure() == 0:
                         observationObj.valid = 0
@@ -116,8 +117,8 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                     feature.id_value = sensor_name #PCK: should propably be gml:id of sams:SF_SpatialSamplingFeature
                     feature.feature_type = None
                     feature.description = None
-                    feature.x = points[1]
-                    feature.y = points[0]
+                    feature.x = float(points[1])
+                    feature.y = float(points[0])
                     feature.offering_id = off_obj.offering_id
                    
                     # Create feature and reference FOI_OFF
@@ -138,13 +139,16 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                 endVal = ov.getElementsByTagName("gml:TimePeriod")[0].getElementsByTagName("gml:endPosition")[0].firstChild.data.strip()
                 observationObj.time_stamp = TimeHandler.TimeHandler().getTime(endVal)
                 observationObj.time_stamp_seconds = TimeHandler.TimeHandler().getEpochTime(endVal)
-                
-                observationObj.numeric_value = ov.getElementsByTagName("om:result")[0].firstChild.data.strip()    
+                try:
+                    observationObj.numeric_value = float(ov.getElementsByTagName("om:result")[0].firstChild.data.strip())
+                except:
+                    Log.Log().ConsoleOutput("Error parsing value")
+                #observationObj.numeric_value = ov.getElementsByTagName("om:result")[0].firstChild.data.strip()    
                 observationObj.unit_of_measure = ov.getElementsByTagName("om:result")[0].attributes["uom"].nodeValue
                 observationList.append(observationObj)
             
             # Offering, procedure and features have been created here
-            
+            Log.Log().ConsoleOutput("Match observation")
             # Match observation
             for obs1 in observationList:
                 for obs2 in observationList:
@@ -155,7 +159,7 @@ for xmlfilepath in glob.glob(os.path.join(pathPickup, "*.xml")):
                             obs2.offering_id = obs1.offering_id  
                         else:
                             obs2.valid = 0
-            
+            Log.Log().ConsoleOutput("Insert observations")
             # Insert observation                
             for obserObj in observationList:
                 if obserObj.valid == 1:
